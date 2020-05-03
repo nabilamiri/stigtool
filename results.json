@@ -41,6 +41,14 @@
             "interface GigabitEthernet0/2is missing storm-control unicast command. Please remediate",
             "interface GigabitEthernet0/1is missing storm-control broadcast command. Please remediate",
             "interface GigabitEthernet0/2is missing storm-control broadcast command. Please remediate"
+        ],
+        "CISC_L2_000180": [
+            "Issue found spanning-tree mode rapid-pvst does not exist in configuration for host host1"
+        ],
+        "CISC_L2_000190": [
+            "Issue found udld enable does not exist in configuration for host host1",
+            "interface GigabitEthernet0/1is missing udld port command. Please remediate",
+            "interface GigabitEthernet0/2is missing udld port command. Please remediate"
         ]
     },
     "host2": {
@@ -92,6 +100,15 @@
             "interface GigabitEthernet0/1is missing storm-control broadcast command. Please remediate",
             "interface GigabitEthernet0/2is missing storm-control broadcast command. Please remediate",
             "interface GigabitEthernet0/3is missing storm-control broadcast command. Please remediate"
+        ],
+        "CISC_L2_000180": [
+            "Issue found spanning-tree mode rapid-pvst does not exist in configuration for host host2"
+        ],
+        "CISC_L2_000190": [
+            "Issue found udld enable does not exist in configuration for host host2",
+            "interface GigabitEthernet0/1is missing udld port command. Please remediate",
+            "interface GigabitEthernet0/2is missing udld port command. Please remediate",
+            "interface GigabitEthernet0/3is missing udld port command. Please remediate"
         ]
     }
 }
