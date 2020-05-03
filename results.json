@@ -1,0 +1,97 @@
+{
+    "host1": {
+        "CISC_L2_000020": [
+            "interface Loopback0 is missing do1x configuration. Please remediate",
+            "interface GigabitEthernet0/0 is missing do1x configuration. Please remediate",
+            "interface GigabitEthernet0/1 is missing do1x configuration. Please remediate",
+            "interface GigabitEthernet0/2 is missing do1x configuration. Please remediate",
+            "Issue found aaa new-model does not exist in configuration for host host1",
+            "Issue found aaa group server radius does not exist in configuration for host host1",
+            "Issue found server name does not exist in configuration for host host1",
+            "Issue found aaa authentication do1x default group does not exist in configuration for host host1",
+            "Issue found dot1x system-auth-control does not exist in configuration for host host1"
+        ],
+        "CISC_L2_000030": [
+            "Host host1 does not have a VTP password. Please set one."
+        ],
+        "CISC_L2_000040": [
+            "Issue found mls qos does not exist in configuration for host host1"
+        ],
+        "CISC_L2_000090": [
+            "interface GigabitEthernet0/1is missing spanning-tree guard root command. Please remediate",
+            "interface GigabitEthernet0/2is missing spanning-tree guard root command. Please remediate"
+        ],
+        "CISC_L2_000100": [
+            "interface GigabitEthernet0/1is missing spanning-tree bpduguard enable command. Please remediate",
+            "interface GigabitEthernet0/2is missing spanning-tree bpduguard enable command. Please remediate"
+        ],
+        "CISC_L2_000110": [
+            "Issue found spanning-tree loopguard default does not exist in configuration for host host1"
+        ],
+        "CISC_L2_000120": [
+            "interface GigabitEthernet0/1is missing switchport block unicast command. Please remediate",
+            "interface GigabitEthernet0/2is missing switchport block unicast command. Please remediate"
+        ],
+        "CISC_L2_000140": [
+            "interface GigabitEthernet0/1is missing ip verify source command. Please remediate",
+            "interface GigabitEthernet0/2is missing ip verify source command. Please remediate"
+        ],
+        "CISC_L2_000160": [
+            "interface GigabitEthernet0/1is missing storm-control unicast command. Please remediate",
+            "interface GigabitEthernet0/2is missing storm-control unicast command. Please remediate",
+            "interface GigabitEthernet0/1is missing storm-control broadcast command. Please remediate",
+            "interface GigabitEthernet0/2is missing storm-control broadcast command. Please remediate"
+        ]
+    },
+    "host2": {
+        "CISC_L2_000020": [
+            "interface Loopback0 is missing do1x configuration. Please remediate",
+            "interface GigabitEthernet0/0 is missing do1x configuration. Please remediate",
+            "interface GigabitEthernet0/1 is missing do1x configuration. Please remediate",
+            "interface GigabitEthernet0/2 is missing do1x configuration. Please remediate",
+            "interface GigabitEthernet0/3 is missing do1x configuration. Please remediate",
+            "Issue found aaa new-model does not exist in configuration for host host2",
+            "Issue found aaa group server radius does not exist in configuration for host host2",
+            "Issue found server name does not exist in configuration for host host2",
+            "Issue found aaa authentication do1x default group does not exist in configuration for host host2",
+            "Issue found dot1x system-auth-control does not exist in configuration for host host2"
+        ],
+        "CISC_L2_000030": [
+            "Host host2 does not have a VTP password. Please set one."
+        ],
+        "CISC_L2_000040": [
+            "Issue found mls qos does not exist in configuration for host host2"
+        ],
+        "CISC_L2_000090": [
+            "interface GigabitEthernet0/1is missing spanning-tree guard root command. Please remediate",
+            "interface GigabitEthernet0/2is missing spanning-tree guard root command. Please remediate",
+            "interface GigabitEthernet0/3is missing spanning-tree guard root command. Please remediate"
+        ],
+        "CISC_L2_000100": [
+            "interface GigabitEthernet0/1is missing spanning-tree bpduguard enable command. Please remediate",
+            "interface GigabitEthernet0/2is missing spanning-tree bpduguard enable command. Please remediate",
+            "interface GigabitEthernet0/3is missing spanning-tree bpduguard enable command. Please remediate"
+        ],
+        "CISC_L2_000110": [
+            "Issue found spanning-tree loopguard default does not exist in configuration for host host2"
+        ],
+        "CISC_L2_000120": [
+            "interface GigabitEthernet0/1is missing switchport block unicast command. Please remediate",
+            "interface GigabitEthernet0/2is missing switchport block unicast command. Please remediate",
+            "interface GigabitEthernet0/3is missing switchport block unicast command. Please remediate"
+        ],
+        "CISC_L2_000140": [
+            "interface GigabitEthernet0/1is missing ip verify source command. Please remediate",
+            "interface GigabitEthernet0/2is missing ip verify source command. Please remediate",
+            "interface GigabitEthernet0/3is missing ip verify source command. Please remediate"
+        ],
+        "CISC_L2_000160": [
+            "interface GigabitEthernet0/1is missing storm-control unicast command. Please remediate",
+            "interface GigabitEthernet0/2is missing storm-control unicast command. Please remediate",
+            "interface GigabitEthernet0/3is missing storm-control unicast command. Please remediate",
+            "interface GigabitEthernet0/1is missing storm-control broadcast command. Please remediate",
+            "interface GigabitEthernet0/2is missing storm-control broadcast command. Please remediate",
+            "interface GigabitEthernet0/3is missing storm-control broadcast command. Please remediate"
+        ]
+    }
+}
