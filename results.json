@@ -18,37 +18,37 @@
             "Issue found mls qos does not exist in configuration for host host1"
         ],
         "CISC_L2_000090": [
-            "interface GigabitEthernet0/1is missing spanning-tree guard root command. Please remediate",
-            "interface GigabitEthernet0/2is missing spanning-tree guard root command. Please remediate"
+            "interface GigabitEthernet0/1 is missing spanning-tree guard root command. Please remediate",
+            "interface GigabitEthernet0/2 is missing spanning-tree guard root command. Please remediate"
         ],
         "CISC_L2_000100": [
-            "interface GigabitEthernet0/1is missing spanning-tree bpduguard enable command. Please remediate",
-            "interface GigabitEthernet0/2is missing spanning-tree bpduguard enable command. Please remediate"
+            "interface GigabitEthernet0/1 is missing spanning-tree bpduguard enable command. Please remediate",
+            "interface GigabitEthernet0/2 is missing spanning-tree bpduguard enable command. Please remediate"
         ],
         "CISC_L2_000110": [
             "Issue found spanning-tree loopguard default does not exist in configuration for host host1"
         ],
         "CISC_L2_000120": [
-            "interface GigabitEthernet0/1is missing switchport block unicast command. Please remediate",
-            "interface GigabitEthernet0/2is missing switchport block unicast command. Please remediate"
+            "interface GigabitEthernet0/1 is missing switchport block unicast command. Please remediate",
+            "interface GigabitEthernet0/2 is missing switchport block unicast command. Please remediate"
         ],
         "CISC_L2_000140": [
-            "interface GigabitEthernet0/1is missing ip verify source command. Please remediate",
-            "interface GigabitEthernet0/2is missing ip verify source command. Please remediate"
+            "interface GigabitEthernet0/1 is missing ip verify source command. Please remediate",
+            "interface GigabitEthernet0/2 is missing ip verify source command. Please remediate"
         ],
         "CISC_L2_000160": [
-            "interface GigabitEthernet0/1is missing storm-control unicast command. Please remediate",
-            "interface GigabitEthernet0/2is missing storm-control unicast command. Please remediate",
-            "interface GigabitEthernet0/1is missing storm-control broadcast command. Please remediate",
-            "interface GigabitEthernet0/2is missing storm-control broadcast command. Please remediate"
+            "interface GigabitEthernet0/1 is missing storm-control unicast command. Please remediate",
+            "interface GigabitEthernet0/2 is missing storm-control unicast command. Please remediate",
+            "interface GigabitEthernet0/1 is missing storm-control broadcast command. Please remediate",
+            "interface GigabitEthernet0/2 is missing storm-control broadcast command. Please remediate"
         ],
         "CISC_L2_000180": [
             "Issue found spanning-tree mode rapid-pvst does not exist in configuration for host host1"
         ],
         "CISC_L2_000190": [
             "Issue found udld enable does not exist in configuration for host host1",
-            "interface GigabitEthernet0/1is missing udld port command. Please remediate",
-            "interface GigabitEthernet0/2is missing udld port command. Please remediate"
+            "interface GigabitEthernet0/1 is missing udld port command. Please remediate",
+            "interface GigabitEthernet0/2 is missing udld port command. Please remediate"
         ]
     },
     "host2": {
@@ -71,44 +71,44 @@
             "Issue found mls qos does not exist in configuration for host host2"
         ],
         "CISC_L2_000090": [
-            "interface GigabitEthernet0/1is missing spanning-tree guard root command. Please remediate",
-            "interface GigabitEthernet0/2is missing spanning-tree guard root command. Please remediate",
-            "interface GigabitEthernet0/3is missing spanning-tree guard root command. Please remediate"
+            "interface GigabitEthernet0/1 is missing spanning-tree guard root command. Please remediate",
+            "interface GigabitEthernet0/2 is missing spanning-tree guard root command. Please remediate",
+            "interface GigabitEthernet0/3 is missing spanning-tree guard root command. Please remediate"
         ],
         "CISC_L2_000100": [
-            "interface GigabitEthernet0/1is missing spanning-tree bpduguard enable command. Please remediate",
-            "interface GigabitEthernet0/2is missing spanning-tree bpduguard enable command. Please remediate",
-            "interface GigabitEthernet0/3is missing spanning-tree bpduguard enable command. Please remediate"
+            "interface GigabitEthernet0/1 is missing spanning-tree bpduguard enable command. Please remediate",
+            "interface GigabitEthernet0/2 is missing spanning-tree bpduguard enable command. Please remediate",
+            "interface GigabitEthernet0/3 is missing spanning-tree bpduguard enable command. Please remediate"
         ],
         "CISC_L2_000110": [
             "Issue found spanning-tree loopguard default does not exist in configuration for host host2"
         ],
         "CISC_L2_000120": [
-            "interface GigabitEthernet0/1is missing switchport block unicast command. Please remediate",
-            "interface GigabitEthernet0/2is missing switchport block unicast command. Please remediate",
-            "interface GigabitEthernet0/3is missing switchport block unicast command. Please remediate"
+            "interface GigabitEthernet0/1 is missing switchport block unicast command. Please remediate",
+            "interface GigabitEthernet0/2 is missing switchport block unicast command. Please remediate",
+            "interface GigabitEthernet0/3 is missing switchport block unicast command. Please remediate"
         ],
         "CISC_L2_000140": [
-            "interface GigabitEthernet0/1is missing ip verify source command. Please remediate",
-            "interface GigabitEthernet0/2is missing ip verify source command. Please remediate",
-            "interface GigabitEthernet0/3is missing ip verify source command. Please remediate"
+            "interface GigabitEthernet0/1 is missing ip verify source command. Please remediate",
+            "interface GigabitEthernet0/2 is missing ip verify source command. Please remediate",
+            "interface GigabitEthernet0/3 is missing ip verify source command. Please remediate"
         ],
         "CISC_L2_000160": [
-            "interface GigabitEthernet0/1is missing storm-control unicast command. Please remediate",
-            "interface GigabitEthernet0/2is missing storm-control unicast command. Please remediate",
-            "interface GigabitEthernet0/3is missing storm-control unicast command. Please remediate",
-            "interface GigabitEthernet0/1is missing storm-control broadcast command. Please remediate",
-            "interface GigabitEthernet0/2is missing storm-control broadcast command. Please remediate",
-            "interface GigabitEthernet0/3is missing storm-control broadcast command. Please remediate"
+            "interface GigabitEthernet0/1 is missing storm-control unicast command. Please remediate",
+            "interface GigabitEthernet0/2 is missing storm-control unicast command. Please remediate",
+            "interface GigabitEthernet0/3 is missing storm-control unicast command. Please remediate",
+            "interface GigabitEthernet0/1 is missing storm-control broadcast command. Please remediate",
+            "interface GigabitEthernet0/2 is missing storm-control broadcast command. Please remediate",
+            "interface GigabitEthernet0/3 is missing storm-control broadcast command. Please remediate"
         ],
         "CISC_L2_000180": [
             "Issue found spanning-tree mode rapid-pvst does not exist in configuration for host host2"
         ],
         "CISC_L2_000190": [
             "Issue found udld enable does not exist in configuration for host host2",
-            "interface GigabitEthernet0/1is missing udld port command. Please remediate",
-            "interface GigabitEthernet0/2is missing udld port command. Please remediate",
-            "interface GigabitEthernet0/3is missing udld port command. Please remediate"
+            "interface GigabitEthernet0/1 is missing udld port command. Please remediate",
+            "interface GigabitEthernet0/2 is missing udld port command. Please remediate",
+            "interface GigabitEthernet0/3 is missing udld port command. Please remediate"
         ]
     }
 }

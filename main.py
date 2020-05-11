@@ -27,29 +27,6 @@ def populate_credentials(task):
     task.host.username = os.getenv('username')
     task.host.password = os.getenv('password')
 
-def generate_config(task):
-    # task.host['platform'] is a variable that I set in my inventory file on each host
-    if task.host.get('platform') == 'ios':
-        task.host['config'] = '''
-no access-list 115
-access-list 115 remark SSH Access to VTY
-access-list 115 remark SSH Access for Net-EMC-230-PRICOL
-access-list 115 permit ip host 128.149.4.93 any
-access-list 115 remark SSH Access for Nettools-VM
-access-list 115 permit ip host 137.78.254.188 any
-access-list 115 remark SSH Access for Nettools-VM-New
-access-list 115 permit ip host 128.149.4.192 any
-access-list 115 remark SSH Access for Nettools2-VM
-access-list 115 permit ip host 128.149.4.193 any
-access-list 115 remark SSH Access for Net-EMC-230-PRICOL-NEW
-access-list 115 permit ip host 128.149.4.91 any
-access-list 115 remark SSH Access for Cisco Prime
-access-list 115 permit ip host 128.149.4.191 any
-access-list 115 remark SSH Access for DNA Center
-access-list 115 permit ip host 137.78.143.70 any
-access-list 115 deny ip any any log
-'''
-
 def collect_configurations(task):
     filtered_config = task.run(task=networking.napalm_get, name='Collecting full configuration',
     getters=["config"],
@@ -110,7 +87,7 @@ def checkInterface(existingConfiguration, lineToCompare, test):
                                 break
                             index_element += 1 #check the next line until reaching the end of interface configuration
                         if hasSwitchport == True and hasLineToCompare == False:
-                            testResult = interface + "is missing " + lineToCompare +  " command. Please remediate"
+                            testResult = interface + " is missing " + lineToCompare +  " command. Please remediate"
                             resultDictionary[key][test].append(testResult)
 
 def CISC_L2_000010(existingConfiguration):
