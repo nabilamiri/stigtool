@@ -40,7 +40,7 @@ def dev_switches(host):
     else:
         return False
 
-def line_by_line_comparison(existingConfiguration, linesToCompare, shouldExist, test='not configured', exactMatch=True):
+def lineByLineComparison(existingConfiguration, linesToCompare, shouldExist, test='not configured', exactMatch=True):
     #run a comparison between your configDictionary and the check_content list
     #If we need to search for a term then we should pass in exactMatch=False during function call
     for key, values in existingConfiguration.items():
@@ -122,7 +122,7 @@ def CISC_L2_000010(existingConfiguration):
 
     shouldExist = False
     print_title(test)
-    line_by_line_comparison(existingConfiguration, checkContent, shouldExist, test)
+    lineByLineComparison(existingConfiguration, checkContent, shouldExist, test)
 
 def CISC_L2_000020(existingConfiguration):
     #Description: Verify if the switch configuration has 802.1x authentication implemented for all access switch ports connecting to LAN outlets (i.e., RJ-45 wall plates) or devices not located in the telecom room, wiring closets, or equipment rooms. MAC Authentication Bypass (MAB) must be configured on those switch ports connected to devices that do not support an 802.1x supplicant.
@@ -159,7 +159,7 @@ def CISC_L2_000020(existingConfiguration):
     ]
 
     shouldExist = True
-    line_by_line_comparison(existingConfiguration, checkContent, shouldExist, test)
+    lineByLineComparison(existingConfiguration, checkContent, shouldExist, test)
 
 def CISC_L2_000030(existingConfiguration):
     #Description: The Cisco switch must authenticate all VLAN Trunk Protocol (VTP) messages with a hash function using the most secured cryptographic algorithm available.
@@ -185,7 +185,7 @@ def CISC_L2_000040(existingConfiguration):
     shouldExist = True
     test = "CISC_L2_000040"
     print_title(test)
-    line_by_line_comparison(existingConfiguration, qos, shouldExist, test)
+    lineByLineComparison(existingConfiguration, qos, shouldExist, test)
 
 def CISC_L2_000090(existingConfiguration):
     #Description: The Cisco switch must have Root Guard enabled on all switch ports connecting to access layer switches and hosts.
@@ -207,7 +207,7 @@ def CISC_L2_000110(existingConfiguration):
     shouldExist = True
     test = "CISC_L2_000110"
     print_title(test)
-    line_by_line_comparison(existingConfiguration, loopGuard, shouldExist, test)
+    lineByLineComparison(existingConfiguration, loopGuard, shouldExist, test)
 
 def CISC_L2_000120(existingConfiguration):
     #Description: The Cisco switch must have BPDU Guard enabled on all user-facing or untrusted access switch ports.
@@ -237,7 +237,7 @@ def CISC_L2_000170(existingConfiguration):
     commandToTest = ['no ip igmp snooping']
     shouldExist = False
     exactMatch = False
-    line_by_line_comparison(existingConfiguration, commandToTest, shouldExist, test, exactMatch)
+    lineByLineComparison(existingConfiguration, commandToTest, shouldExist, test, exactMatch)
 
 def CISC_L2_000180(existingConfiguration):
     #Description: The Cisco switch must implement Rapid STP where VLANs span multiple switches with redundant links.
@@ -245,7 +245,7 @@ def CISC_L2_000180(existingConfiguration):
     print_title(test)
     commandToTest = ['spanning-tree mode rapid-pvst']
     shouldExist = True
-    line_by_line_comparison(existingConfiguration, commandToTest, shouldExist, test)
+    lineByLineComparison(existingConfiguration, commandToTest, shouldExist, test)
 
 def CISC_L2_000190(existingConfiguration):
     #Description: The Cisco switch must enable Unidirectional Link Detection (UDLD) to protect against one-way connections.
@@ -253,7 +253,7 @@ def CISC_L2_000190(existingConfiguration):
     print_title(test)
     commandToTest = ['udld enable']
     shouldExist = True
-    line_by_line_comparison(existingConfiguration, commandToTest, shouldExist, test)
+    lineByLineComparison(existingConfiguration, commandToTest, shouldExist, test)
 
     #This will check on a per interface basis. We should consider modifying line by line to a boolean return...
     commandToTest = 'udld port'
@@ -339,7 +339,7 @@ def CISC_L2_000270(existingConfiguration):
     checkContent = ['native vlan']
     shouldExist = False
     exactMatch = False
-    line_by_line_comparison(existingConfiguration, checkContent, shouldExist, test, exactMatch)
+    lineByLineComparison(existingConfiguration, checkContent, shouldExist, test, exactMatch)
 
 # Select the devices from the inventory that you want to run tasks on
 access_switches = nr.filter(filter_func=dev_switches)
