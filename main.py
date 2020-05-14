@@ -89,6 +89,17 @@ def checkInterface(existingConfiguration, lineToCompare, test):
                         if hasSwitchport == True and hasLineToCompare == False:
                             testResult = interface + " is missing " + lineToCompare +  " command. Please remediate"
                             resultDictionary[key][test].append(testResult)
+def vlanParser(vlanList):
+    activeVlans = []
+    for vlan in vlanList:
+        if '-' in vlan:
+            t = vlan.split('-')
+            activeVlans += range(int(t[0]), int(t[1]) + 1)
+        else:
+            activeVlans.append(int(vlan))
+    #Let's remove duplicate entries in the list
+    activeVlans = list(dict.fromkeys(activeVlans))
+    return activeVlans
 
 def CISC_L2_000010(existingConfiguration):
     #Description: The Cisco switch must be configured to disable non-essential capabilities.
@@ -248,6 +259,79 @@ def CISC_L2_000190(existingConfiguration):
     commandToTest = 'udld port'
     checkInterface(existingConfiguration, commandToTest, test)
 
+def CISC_L2_000200(existingConfiguration):
+    #Description: The Cisco switch must have all trunk links enabled statically.
+    test = "CISC_L2_000200"
+    print_title(test)
+    output = access_switches.run(task=networking.napalm_cli, commands=['show interfaces switchport'])
+
+    configDictionary = defaultdict(list)
+
+    #build a datastructure with host: result pairings
+    for h, l in zip(hostKeys, listOfKeys):
+        filtered_output = output[l].result
+        someString = filtered_output['show interfaces switchport']
+        stringList = someString.split('\n')
+        for x in stringList:
+            if 'Name: ' in x:
+                currentInterface = x
+            if 'Negotiation of Trunking: On' in x:
+                testResult = "Interface" + currentInterface + " on host " +  h + " is using auto negotiation of trunking. Please remediate."
+                resultDictionary[h][test].append(testResult)
+
+def CISC_L2_000210(existingConfiguration):
+    #Description: The Cisco switch must have all disabled switch ports assigned to an unused VLAN.
+    test = "CISC_L2_000210"
+    print_title(test)
+    output = access_switches.run(task=networking.napalm_cli, commands=['show interfaces switchport'])
+    activeVlansOnHost = defaultdict(list)
+
+    configDictionary = defaultdict(list)
+    #Setting a flag to determine if TrunkAll is set. We need at least one VLAN disabled/not trunking to have an attempt at passing this rule
+    trunkAll = False
+    c = set()
+    #build a datastructure with host: result pairings
+    for l in hostKeys:
+        filtered_output = output[l].result
+        someString = filtered_output['show interfaces switchport']
+        stringList = someString.split('\n')
+        for x in stringList:
+            activeVlans = []
+            if 'Name: ' in x:
+                currentInterface = x
+            if 'Trunking VLANs Enabled: ALL' in x:
+                testResult = "Interface" + currentInterface + " on host " +  l + " is trunking ALL VLANs. Please disable at least one VLAN."
+                trunkAll = True
+                resultDictionary[l][test].append(testResult)
+                break
+            if 'Trunking VLANs Enabled: ' in x and trunkAll == False:
+                tempString = x.replace('Trunking VLANs Enabled: ', '')
+                numbers = tempString.split(',')
+                activeVlans = vlanParser(numbers)
+                activeVlansOnHost[l] += activeVlans
+
+    for key, values in existingConfiguration.items():
+        for v in values:
+            for current_line in v:
+                interface = current_line
+                if interface.startswith("interface"):
+                        index_element = v.index(interface)
+                        interfaceConfigurationBlock = []
+                        vlansOnInterfaceConfiguration = []
+                        while v[index_element] != '!':
+                            currentLine = v[index_element]
+                            interfaceConfigurationBlock.append(currentLine)
+                            if 'switchport access vlan' in currentLine:
+                                temporaryString = currentLine.replace(' switchport access vlan ', '')
+                                remainingVlans = temporaryString.split(',')
+                                vlansOnInterfaceConfiguration = vlanParser(remainingVlans)
+                            index_element += 1
+
+                        if ' switchport mode access' in interfaceConfigurationBlock and ' shutdown' in interfaceConfigurationBlock and (set(activeVlansOnHost[key]).intersection(set(vlansOnInterfaceConfiguration)) != c):
+                            testResult = interface + " is shutdown in a VLAN that is in use. Please remediate"
+                            resultDictionary[key][test].append(testResult)
+
+
 def CISC_L2_000270(existingConfiguration):
     #Description: The Cisco switch must not have any switchports assigned to the native VLAN.
     test = "CISC_L2_000270"
@@ -256,10 +340,6 @@ def CISC_L2_000270(existingConfiguration):
     shouldExist = False
     exactMatch = False
     line_by_line_comparison(existingConfiguration, checkContent, shouldExist, test, exactMatch)
-
-#def push_acl_config(task):
-#    result = task.run(task=networking.napalm_configure, name='Loading config', configuration=task.host['config'], dry_run=False)
-#    return Result(host=task.host, diff=result.diff, changed=result.changed)
 
 # Select the devices from the inventory that you want to run tasks on
 access_switches = nr.filter(filter_func=dev_switches)
@@ -313,6 +393,10 @@ CISC_L2_000160(configDictionary)
 CISC_L2_000170(configDictionary)
 CISC_L2_000180(configDictionary)
 CISC_L2_000190(configDictionary)
+CISC_L2_000200(configDictionary)
+CISC_L2_000210(configDictionary)
+#CISC-L2-000220 - No usage of VLAN1
+#CISC-L2-000230 - No usage of VLAN1
 #CISC-L2-000240 - No usage of VLAN1
 #CISC-L2-000250 - Need clarification on this requirement
 #CISC_L2_000260 - inherently satisfied by 270
