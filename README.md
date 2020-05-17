@@ -9,8 +9,6 @@ The tool relies on Nornir as an automation framework: https://nornir.readthedocs
 
 You will need to create a .env file with the follow set or these variables will need to be added to your PATH (where ? is replaced by it's corresponding value):
 ```
-INTERNAL_NM_USER=?  
-INTERNAL_NM_PASS=?  
 username=?  
 password=?  
 ```

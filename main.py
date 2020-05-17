@@ -19,9 +19,10 @@ nr = InitNornir(core={'num_workers': 50}, inventory={
     }
 }, logging={ 'enabled': False })
 
+# You can increase or decrease number of hosts to run the test against by adding them here. 
 targetHosts = ['172.16.1.213', '172.16.1.214']
 
-# This is taking a value from the Nornir inventory. Every host in the inventory has a variable named 'credentials' which contains either 'INTERNAL' or 'EXTERNAL'  The .env file contains the variables for both of those, named INTERNAL_NM_USER and INTERNAL_NM_PASS.
+# This is taking a value from the Nornir inventory. Every host in the inventory has a variable named 'credentials'.
 # 'task.host.username/password' is a well-known host variable that's automatically searched for credentials by NAPALM.
 def populate_credentials(task):
     task.host.username = os.getenv('username')
@@ -45,27 +46,28 @@ def lineByLineComparison(existingConfiguration, linesToCompare, shouldExist, tes
     #If we need to search for a term then we should pass in exactMatch=False during function call
     for key, values in existingConfiguration.items():
         for v in values:
-            print("\nCurrently checking configuration for host", key)
             if shouldExist == False:
                 for current_line in v:
                     for line in linesToCompare:
                         if line == current_line and exactMatch == True:
-                            testResult = "Issue found. " + key + " contains" + line + "Please remediate."
+                            testResult = "Issue found: " + key + " contains" + line + "Please remediate."
                             resultDictionary[h][test].append(testResult)
                         if line in current_line and exactMatch == False:
-                            testResult = "Issue found. " + key + " contains" + line + "Please remediate."
+                            testResult = "Issue found: " + key + " contains" + line + "Please remediate."
                             resultDictionary[h][test].append(testResult)
             #Check for single instance of a line within the configurations
             if shouldExist == True:
                 for line in linesToCompare:
-                        if line not in v:
-                            testResult = "Issue found " + line + " does not exist in configuration for host " + key
+                        if line not in v and exactMatch == True:
+                            testResult = "Issue found: " + line + " does not exist in configuration for host " + key
+                            resultDictionary[key][test].append(testResult)
+                        if any(s.startswith(line) for s in v) == False and exactMatch == False:
+                            testResult = "Issue found: " + line + " does not exist in configuration for host " + key
                             resultDictionary[key][test].append(testResult)
 
 def checkInterface(existingConfiguration, lineToCompare, test):
         for key, values in existingConfiguration.items():
             for v in values:
-                print("\nCurrently checking configuration for host", key)
                 for current_line in v:
                     #reset both counters before checking for current host
                     hasSwitchport = False
@@ -76,7 +78,7 @@ def checkInterface(existingConfiguration, lineToCompare, test):
                         #find the index position within the configuration to check for configuration
                         index_element = v.index(interface)
                         while v[index_element] != '!':
-                            #for the comparison we are using a leading because the config contains a space for indentation
+                            #for the comparison we are using a leading space because the config contains a space for indentation
                             #we have to check for routed ports and ignore those
                             #we have to disqualify trunk ports
                             if 'switchport mode access' in v[index_element] and v[index_element] != ' no switchport':
@@ -131,7 +133,6 @@ def CISC_L2_000020(existingConfiguration):
     hasBoth = 0 #this will keep a count per interface to see if both critieria are met
     for key, values in existingConfiguration.items():
         for v in values:
-            print("\nCurrently checking configuration for host", key)
             for current_line in v:
                 interface = current_line
                 hasBoth = 0 #reset counter for hasBoth
@@ -216,11 +217,75 @@ def CISC_L2_000120(existingConfiguration):
     commandToTest = 'switchport block unicast'
     checkInterface(existingConfiguration, commandToTest, test)
 
+def CISC_L2_000130(existingConfiguration):
+    #Description: The Cisco switch must have DHCP snooping for all user VLANs to validate DHCP messages from untrusted sources
+    test = "CISC_L2_000130"
+    print_title(test)
+    vlansList = defaultdict(list)
+    commandToTest = ['ip dhcp snooping']
+    shouldExist = True
+    exactMatch = False
+
+    lineByLineComparison(existingConfiguration, commandToTest, shouldExist, test, exactMatch)
+
+    for key, values in existingConfiguration.items():
+        for v in values:
+            for x in v:
+                currentLine = x
+                if currentLine.startswith("ip dhcp snooping"):
+                    dhcpSnooping = True
+                    tempString = currentLine.replace('ip dhcp snooping vlan ', '')
+                    dhcpSnoopingVlans = tempString.split(',')
+                    vlansList = vlanParser(dhcpSnoopingVlans)
+                #collect current interface
+                if currentLine.startswith("interface"):
+                    interface = currentLine
+                if currentLine.startswith(" switchport access vlan "):
+                    filterString = currentLine.replace(' switchport access vlan ', '')
+                    splitString = filterString.split(',')
+                    vlansOnAccessInterface = vlanParser(splitString)
+                    if (set(vlansOnAccessInterface).issubset(set(vlansList)) == False):
+                        testResult = interface + " is an access interface with VLANs that are not being snooped. Please remediate."
+                        resultDictionary[key][test].append(testResult)
+
+
+
 def CISC_L2_000140(existingConfiguration):
     test = "CISC_L2_000140"
     print_title(test)
     commandToTest = 'ip verify source'
     checkInterface(existingConfiguration, commandToTest, test)
+
+def CISC_L2_000150(existingConfiguration):
+    #Description: The Cisco switch must have Dynamic Address Resolution Protocol (ARP) Inspection (DAI) enabled on all user VLANs.
+    test = "CISC_L2_000130"
+    print_title(test)
+    vlansList = defaultdict(list)
+    commandToTest = ['ip arp inspection']
+    shouldExist = True
+    exactMatch = False
+
+    lineByLineComparison(existingConfiguration, commandToTest, shouldExist, test, exactMatch)
+
+    for key, values in existingConfiguration.items():
+        for v in values:
+            for x in v:
+                currentLine = x
+                if currentLine.startswith("ip arp inspection"):
+                    arpInspection = True
+                    tempString = currentLine.replace('ip arp inspection vlan ', '')
+                    arpInspectionVlans = tempString.split(',')
+                    vlansList = vlanParser(arpInspectionVlans)
+                #collect current interface
+                if currentLine.startswith("interface"):
+                    interface = currentLine
+                if currentLine.startswith(" switchport access vlan "):
+                    filterString = currentLine.replace(' switchport access vlan ', '')
+                    splitString = filterString.split(',')
+                    vlansOnAccessInterface = vlanParser(splitString)
+                    if (set(vlansOnAccessInterface).issubset(set(vlansList)) == False):
+                        testResult = interface + " is an access interface with VLANs that are not being inspected by Dynamic ARP Inspection. Please remediate."
+                        resultDictionary[key][test].append(testResult)
 
 def CISC_L2_000160(existingConfiguration):
     test = "CISC_L2_000160"
@@ -331,6 +396,95 @@ def CISC_L2_000210(existingConfiguration):
                             testResult = interface + " is shutdown in a VLAN that is in use. Please remediate"
                             resultDictionary[key][test].append(testResult)
 
+def CISC_L2_000220(existingConfiguration):
+    #Description: The Cisco switch must not have the default VLAN assigned to any host-facing switch ports.
+    test = "CISC_L2_000220"
+    print_title(test)
+    output = access_switches.run(task=networking.napalm_cli, commands=['show vlan brief'])
+
+    configDictionary = defaultdict(list)
+
+    #build a datastructure with host: result pairings
+    for h, l in zip(hostKeys, listOfKeys):
+        filtered_output = output[l].result
+        someString = filtered_output['show vlan brief']
+        stringList = someString.split('\n')
+        for x in stringList:
+            if '1    default' in x:
+                line = x
+                tempString = " ".join(line.split())
+                stringList = tempString.split(' ')
+                #if the last element in the stringList array is a description rather than
+                #an interface we know that no interfaces are assigned here
+                if stringList[-1] == 'active' or stringList[-1] == 'inactive':
+                    continue
+                else:
+                    testResult = stringList[-1] + " on host " +  h + " has access interfaces in the default VLAN. Please remediate."
+                    resultDictionary[h][test].append(testResult)
+
+def CISC_L2_000230(existingConfiguration):
+    #Description: The Cisco switch must have the default VLAN pruned from all trunk ports that do not require it.
+    test = "CISC_L2_000230"
+    print_title(test)
+    output = access_switches.run(task=networking.napalm_cli, commands=['show int trunk'])
+
+    configDictionary = defaultdict(list)
+
+    #build a datastructure with host: result pairings
+    for h, l in zip(hostKeys, listOfKeys):
+        filtered_output = output[l].result
+        someString = filtered_output['show int trunk']
+        stringList = someString.split('\n')
+        for x in stringList:
+            line = x
+            if 'Vlans allowed on trunk' in line:
+                index_element = stringList.index(line)
+                index_element +=1 #iterate to the next line of the output which will contain ports and their allowed vlans on trunk
+                while stringList[index_element].startswith('Port') == False:
+                    currentLine = stringList[index_element]
+                    interface = currentLine.split(' ') #grab the interface name
+                    if('1,') in currentLine or ('1-') in currentLine: #check the current line for VLAN1 in the interface trunking
+                        testResult = "VLAN1 is not being pruned from " + interface[0] + " on host " + h + ". Please remediate."
+                        resultDictionary[h][test].append(testResult)
+                    index_element +=1
+
+def CISC_L2_000240(existingConfiguration):
+    #Description: The Cisco switch must not use the default VLAN for management traffic.
+    test = "CISC_L2_000240"
+    print_title(test)
+
+    for key, values in existingConfiguration.items():
+        for v in values:
+            for current_line in v:
+                interface = current_line
+                if interface == 'interface Vlan1':
+                    #find the index position within the configuration to check for dot1x configuration
+                    index_element = v.index(interface)
+                    index_element += 1
+                    if 'Management' or 'MGMT' in v[index_element]:
+                        testResult = "The management VLAN is using VLAN1. Please remediate."
+                        resultDictionary[key][test].append(testResult)        
+
+def CISC_L2_000260(existingConfiguration):
+    #Description: The Cisco switch must have the native VLAN assigned to an ID other than the default VLAN for all 802.1q trunk links.
+    test = "CISC_L2_000260"
+    print_title(test)
+    output = access_switches.run(task=networking.napalm_cli, commands=['show interfaces switchport'])
+
+    configDictionary = defaultdict(list)
+
+    #build a datastructure with host: result pairings
+    for h, l in zip(hostKeys, listOfKeys):
+        filtered_output = output[l].result
+        someString = filtered_output['show interfaces switchport']
+        stringList = someString.split('\n')
+        for x in stringList:
+            if 'Name: ' in x:
+                tempString = x
+                currentInterface = tempString.replace("Name: ", '')
+            if 'Trunking Native Mode VLAN: 1 (default)' in x:
+                testResult = "Interface " + currentInterface + " on host " +  h + " is trunking the native VLAN. Please remediate."
+                resultDictionary[h][test].append(testResult)
 
 def CISC_L2_000270(existingConfiguration):
     #Description: The Cisco switch must not have any switchports assigned to the native VLAN.
@@ -366,13 +520,6 @@ for h, l in zip(hostKeys, listOfKeys):
     filtered_output = None
     someString = None
 
-#access and print each line of the configuration
-#for key, values in configDictionary.items():
-#    for v in values:
-#        print("The configuration for ", key, "is: ")
-#        for i in v:
-#            print(i)
-
 #Generate data structures (a dictionary of dictionary of lists) for the results to be captured
 resultDictionary = defaultdict(dict)
 for h in hostKeys:
@@ -386,20 +533,20 @@ CISC_L2_000090(configDictionary)
 CISC_L2_000100(configDictionary)
 CISC_L2_000110(configDictionary)
 CISC_L2_000120(configDictionary)
-#CISC_L2_000130 - will need to build logic around ranges
+CISC_L2_000130(configDictionary)
 CISC_L2_000140(configDictionary)
-#CISC_L2_000150 - similar code to 130
+CISC_L2_000150(configDictionary)
 CISC_L2_000160(configDictionary)
 CISC_L2_000170(configDictionary)
 CISC_L2_000180(configDictionary)
 CISC_L2_000190(configDictionary)
 CISC_L2_000200(configDictionary)
 CISC_L2_000210(configDictionary)
-#CISC-L2-000220 - No usage of VLAN1
-#CISC-L2-000230 - No usage of VLAN1
-#CISC-L2-000240 - No usage of VLAN1
-#CISC-L2-000250 - Need clarification on this requirement
-#CISC_L2_000260 - inherently satisfied by 270
+CISC_L2_000220(configDictionary)
+CISC_L2_000230(configDictionary)
+CISC_L2_000240(configDictionary)
+#CISC-L2-000250 - All user facing ports cannot be trunk links
+CISC_L2_000260(configDictionary)
 CISC_L2_000270(configDictionary)
 
 # Serializing json
