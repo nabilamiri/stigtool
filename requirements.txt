@@ -1,0 +1,4 @@
+nornir
+python-dotenv
+cryptography
+lxml
