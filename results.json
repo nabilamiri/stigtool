@@ -5,17 +5,18 @@
             "interface GigabitEthernet0/0 is missing do1x configuration. Please remediate",
             "interface GigabitEthernet0/1 is missing do1x configuration. Please remediate",
             "interface GigabitEthernet0/2 is missing do1x configuration. Please remediate",
-            "Issue found aaa new-model does not exist in configuration for host host1",
-            "Issue found aaa group server radius does not exist in configuration for host host1",
-            "Issue found server name does not exist in configuration for host host1",
-            "Issue found aaa authentication do1x default group does not exist in configuration for host host1",
-            "Issue found dot1x system-auth-control does not exist in configuration for host host1"
+            "interface Vlan1 is missing do1x configuration. Please remediate",
+            "Issue found: aaa new-model does not exist in configuration for host host1",
+            "Issue found: aaa group server radius does not exist in configuration for host host1",
+            "Issue found: server name does not exist in configuration for host host1",
+            "Issue found: aaa authentication do1x default group does not exist in configuration for host host1",
+            "Issue found: dot1x system-auth-control does not exist in configuration for host host1"
         ],
         "CISC_L2_000030": [
             "Host host1 does not have a VTP password. Please set one."
         ],
         "CISC_L2_000040": [
-            "Issue found mls qos does not exist in configuration for host host1"
+            "Issue found: mls qos does not exist in configuration for host host1"
         ],
         "CISC_L2_000090": [
             "interface GigabitEthernet0/1 is missing spanning-tree guard root command. Please remediate"
@@ -23,11 +24,13 @@
         "CISC_L2_000100": [
             "interface GigabitEthernet0/1 is missing spanning-tree bpduguard enable command. Please remediate"
         ],
-        "CISC_L2_000110": [
-            "Issue found spanning-tree loopguard default does not exist in configuration for host host1"
-        ],
         "CISC_L2_000120": [
             "interface GigabitEthernet0/1 is missing switchport block unicast command. Please remediate"
+        ],
+        "CISC_L2_000130": [
+            "interface GigabitEthernet0/1 is an access interface with VLANs that are not being snooped. Please remediate.",
+            "Issue found: ip arp inspection does not exist in configuration for host host1",
+            "interface GigabitEthernet0/1 is an access interface with VLANs that are not being inspected by Dynamic ARP Inspection. Please remediate."
         ],
         "CISC_L2_000140": [
             "interface GigabitEthernet0/1 is missing ip verify source command. Please remediate"
@@ -37,14 +40,20 @@
             "interface GigabitEthernet0/1 is missing storm-control broadcast command. Please remediate"
         ],
         "CISC_L2_000180": [
-            "Issue found spanning-tree mode rapid-pvst does not exist in configuration for host host1"
+            "Issue found: spanning-tree mode rapid-pvst does not exist in configuration for host host1"
         ],
         "CISC_L2_000190": [
-            "Issue found udld enable does not exist in configuration for host host1",
+            "Issue found: udld enable does not exist in configuration for host host1",
             "interface GigabitEthernet0/1 is missing udld port command. Please remediate"
         ],
         "CISC_L2_000200": [
             "InterfaceName: Gi0/2 on host host1 is using auto negotiation of trunking. Please remediate."
+        ],
+        "CISC_L2_000240": [
+            "The management VLAN is using VLAN1. Please remediate."
+        ],
+        "CISC_L2_000260": [
+            "Interface Gi0/2 on host host1 is trunking the native VLAN. Please remediate."
         ]
     },
     "host2": {
@@ -54,17 +63,17 @@
             "interface GigabitEthernet0/1 is missing do1x configuration. Please remediate",
             "interface GigabitEthernet0/2 is missing do1x configuration. Please remediate",
             "interface GigabitEthernet0/3 is missing do1x configuration. Please remediate",
-            "Issue found aaa new-model does not exist in configuration for host host2",
-            "Issue found aaa group server radius does not exist in configuration for host host2",
-            "Issue found server name does not exist in configuration for host host2",
-            "Issue found aaa authentication do1x default group does not exist in configuration for host host2",
-            "Issue found dot1x system-auth-control does not exist in configuration for host host2"
+            "Issue found: aaa new-model does not exist in configuration for host host2",
+            "Issue found: aaa group server radius does not exist in configuration for host host2",
+            "Issue found: server name does not exist in configuration for host host2",
+            "Issue found: aaa authentication do1x default group does not exist in configuration for host host2",
+            "Issue found: dot1x system-auth-control does not exist in configuration for host host2"
         ],
         "CISC_L2_000030": [
             "Host host2 does not have a VTP password. Please set one."
         ],
         "CISC_L2_000040": [
-            "Issue found mls qos does not exist in configuration for host host2"
+            "Issue found: mls qos does not exist in configuration for host host2"
         ],
         "CISC_L2_000090": [
             "interface GigabitEthernet0/1 is missing spanning-tree guard root command. Please remediate",
@@ -77,12 +86,19 @@
             "interface GigabitEthernet0/3 is missing spanning-tree bpduguard enable command. Please remediate"
         ],
         "CISC_L2_000110": [
-            "Issue found spanning-tree loopguard default does not exist in configuration for host host2"
+            "Issue found: spanning-tree loopguard default does not exist in configuration for host host2"
         ],
         "CISC_L2_000120": [
             "interface GigabitEthernet0/1 is missing switchport block unicast command. Please remediate",
             "interface GigabitEthernet0/2 is missing switchport block unicast command. Please remediate",
             "interface GigabitEthernet0/3 is missing switchport block unicast command. Please remediate"
+        ],
+        "CISC_L2_000130": [
+            "Issue found: ip dhcp snooping does not exist in configuration for host host2",
+            "Issue found: ip arp inspection does not exist in configuration for host host2",
+            "interface GigabitEthernet0/1 is an access interface with VLANs that are not being inspected by Dynamic ARP Inspection. Please remediate.",
+            "interface GigabitEthernet0/2 is an access interface with VLANs that are not being inspected by Dynamic ARP Inspection. Please remediate.",
+            "interface GigabitEthernet0/3 is an access interface with VLANs that are not being inspected by Dynamic ARP Inspection. Please remediate."
         ],
         "CISC_L2_000140": [
             "interface GigabitEthernet0/1 is missing ip verify source command. Please remediate",
@@ -98,16 +114,24 @@
             "interface GigabitEthernet0/3 is missing storm-control broadcast command. Please remediate"
         ],
         "CISC_L2_000180": [
-            "Issue found spanning-tree mode rapid-pvst does not exist in configuration for host host2"
+            "Issue found: spanning-tree mode rapid-pvst does not exist in configuration for host host2"
         ],
         "CISC_L2_000190": [
-            "Issue found udld enable does not exist in configuration for host host2",
+            "Issue found: udld enable does not exist in configuration for host host2",
             "interface GigabitEthernet0/1 is missing udld port command. Please remediate",
             "interface GigabitEthernet0/2 is missing udld port command. Please remediate",
             "interface GigabitEthernet0/3 is missing udld port command. Please remediate"
         ],
         "CISC_L2_000210": [
             "InterfaceName: Gi0/1 on host host2 is trunking ALL VLANs. Please disable at least one VLAN."
+        ],
+        "CISC_L2_000260": [
+            "Interface Gi0/1 on host host2 is trunking the native VLAN. Please remediate.",
+            "Interface Gi0/2 on host host2 is trunking the native VLAN. Please remediate.",
+            "Interface Gi0/3 on host host2 is trunking the native VLAN. Please remediate."
+        ],
+        "CISC_L2_000270": [
+            "Issue found: host1 containsnative vlanPlease remediate."
         ]
     }
 }
