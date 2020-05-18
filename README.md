@@ -12,3 +12,15 @@ You will need to create a .env file with the follow set or these variables will 
 username=?  
 password=?  
 ```
+The tool itself can be run as:
+```
+python l2s.py
+```
+
+## Docker
+To build the docker version you will need to run:
+
+```
+docker build -t stigtool .
+docker run stigtool
+```
