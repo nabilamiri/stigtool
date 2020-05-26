@@ -24,3 +24,9 @@ To build the docker version you will need to run:
 docker build -t stigtool .
 docker run stigtool
 ```
+
+As an alternative you can download the prebuilt image:
+
+```
+docker pull nabilamiri/stigtool
+```
